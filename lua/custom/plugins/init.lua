@@ -54,14 +54,69 @@ return {
         function()
           require('mini.files').open(vim.api.nvim_buf_get_name(0), true)
         end,
-        desc = 'Open mini.files (Directory of Current File)',
+        desc = 'Open mini.files [e]xplorer (current directory)',
       },
       {
         '<leader>E',
         function()
           require('mini.files').open(vim.uv.cwd(), true)
         end,
-        desc = 'Open mini.files (cwd)',
+        desc = 'Open mini.files [E]xplorer (working directory)',
+      },
+    },
+  },
+  {
+    'christoomey/vim-tmux-navigator',
+    cmd = {
+      'TmuxNavigateLeft',
+      'TmuxNavigateDown',
+      'TmuxNavigateUp',
+      'TmuxNavigateRight',
+      'TmuxNavigatePrevious',
+      'TmuxNavigatorProcessList',
+    },
+    keys = {
+      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
+      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
+      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
+      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
+      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
+    },
+  },
+  {
+    'folke/persistence.nvim',
+    event = 'BufReadPre', -- this will only start session saving when an actual file was opened
+    opts = {
+      -- add any custom options here
+    },
+    keys = {
+      {
+        '<leader>qs',
+        function()
+          require('persistence').load()
+        end,
+        desc = 'Load [s]ession for current directory',
+      },
+      {
+        '<leader>qS',
+        function()
+          require('persistence').select()
+        end,
+        desc = '[S]elect a session to load',
+      },
+      {
+        '<leader>ql',
+        function()
+          require('persistence').load { last = true }
+        end,
+        desc = 'Load the [l]ast session',
+      },
+      {
+        '<leader>qd',
+        function()
+          require('persistence').stop()
+        end,
+        desc = "Stop persistence, session won't be saved on exit",
       },
     },
   },
