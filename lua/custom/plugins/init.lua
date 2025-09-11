@@ -63,6 +63,9 @@ return {
     end,
   },
   {
+    'dstein64/nvim-scrollview',
+  },
+  {
     'echasnovski/mini.files',
     opts = {
       windows = {
