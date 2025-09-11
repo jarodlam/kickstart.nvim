@@ -13,7 +13,7 @@ return {
       },
       sections = {
         lualine_a = { { 'mode', separator = { left = '', right = '' }, right_padding = 2 } },
-        lualine_b = { 'filename', 'branch', 'diff', 'diagnostics' },
+        lualine_b = { { 'filename', path = 1 }, 'branch', 'diff', 'diagnostics' },
         lualine_c = {
           '%=', --[[ add your center components here in place of this comment ]]
         },
@@ -36,6 +36,33 @@ return {
     },
   },
   {
+    'akinsho/bufferline.nvim',
+    event = 'VeryLazy',
+    version = '*',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    keys = {
+      { '<leader>bp', '<Cmd>BufferLineTogglePin<CR>', desc = 'Bufferline: Toggle [p]in' },
+      { '<leader>bP', '<Cmd>BufferLineGroupClose ungrouped<CR>', desc = 'Bufferline: Delete non-[P]inned buffers' },
+      { '<leader>br', '<Cmd>BufferLineCloseRight<CR>', desc = 'Bufferline: Delete buffers to the [r]ight' },
+      { '<leader>bl', '<Cmd>BufferLineCloseLeft<CR>', desc = 'Bufferline: Delete buffers to the [l]eft' },
+      { '<S-h>', '<cmd>BufferLineCyclePrev<cr>', desc = 'Bufferline: Prev buffer' },
+      { '<S-l>', '<cmd>BufferLineCycleNext<cr>', desc = 'Bufferline: Next buffer' },
+      { '[b', '<cmd>BufferLineCyclePrev<cr>', desc = 'Bufferline: Prev buffer' },
+      { ']b', '<cmd>BufferLineCycleNext<cr>', desc = 'Bufferline: Next buffer' },
+      { '[B', '<cmd>BufferLineMovePrev<cr>', desc = 'Bufferline: Move buffer prev' },
+      { ']B', '<cmd>BufferLineMoveNext<cr>', desc = 'Bufferline: Move buffer next' },
+    },
+    opts = {
+      highlights = require('catppuccin.groups.integrations.bufferline').get_theme(),
+      options = {
+        separator_style = 'thick',
+      },
+    },
+    config = function(_, opts)
+      require('bufferline').setup(opts)
+    end,
+  },
+  {
     'echasnovski/mini.files',
     opts = {
       windows = {
@@ -54,14 +81,14 @@ return {
         function()
           require('mini.files').open(vim.api.nvim_buf_get_name(0), true)
         end,
-        desc = 'Open mini.files [e]xplorer (current directory)',
+        desc = 'mini.files: Open [e]xplorer (current directory)',
       },
       {
         '<leader>E',
         function()
           require('mini.files').open(vim.uv.cwd(), true)
         end,
-        desc = 'Open mini.files [E]xplorer (working directory)',
+        desc = 'mini.files: Open [E]xplorer (working directory)',
       },
     },
   },
@@ -95,29 +122,34 @@ return {
         function()
           require('persistence').load()
         end,
-        desc = 'Load [s]ession for current directory',
+        desc = 'Persistence: Load [s]ession for current directory',
       },
       {
         '<leader>qS',
         function()
           require('persistence').select()
         end,
-        desc = '[S]elect a session to load',
+        desc = 'Persistence: [S]elect a session to load',
       },
       {
         '<leader>ql',
         function()
           require('persistence').load { last = true }
         end,
-        desc = 'Load the [l]ast session',
+        desc = 'Persistence: Load the [l]ast session',
       },
       {
         '<leader>qd',
         function()
           require('persistence').stop()
         end,
-        desc = "Stop persistence, session won't be saved on exit",
+        desc = "Persistence: Stop, session won't be saved on exit",
       },
     },
+  },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^6', -- Recommended
+    lazy = false, -- This plugin is already lazy
   },
 }
