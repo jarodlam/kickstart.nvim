@@ -4,6 +4,50 @@
 -- See the kickstart.nvim README for more information
 return {
   {
+    'folke/snacks.nvim',
+    priority = 1000,
+    lazy = false,
+    opts = {
+      bigfile = { enabled = true },
+      bufdelete = { enabled = true },
+      gitbrowse = { enabled = true },
+      lazygit = { enabled = true },
+      scroll = {
+        animate = {
+          duration = { step = 5, total = 100 },
+          easing = 'linear',
+        },
+        -- faster animation when repeating scroll after delay
+        animate_repeat = {
+          delay = 100, -- delay in ms before using the repeat animation
+          duration = { step = 5, total = 50 },
+          easing = 'linear',
+        },
+        -- what buffers to animate
+        filter = function(buf)
+          return vim.g.snacks_scroll ~= false and vim.b[buf].snacks_scroll ~= false and vim.bo[buf].buftype ~= 'terminal'
+        end,
+      },
+    },
+    keys = {
+      {
+        '<leader>hB',
+        function()
+          require('snacks').gitbrowse()
+        end,
+        desc = 'git [B]rowse',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>hh',
+        function()
+          require('snacks').lazygit()
+        end,
+        desc = 'lazygit',
+      },
+    },
+  },
+  {
     'nvim-lualine/lualine.nvim',
     opts = {
       options = {

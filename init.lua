@@ -706,6 +706,35 @@ require('lazy').setup({
             },
           },
         },
+        pyright = {
+          settings = {
+            pyright = {
+              -- Using Ruff's import organizer
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                useLibraryCodeForTypes = true,
+                diagnosticSeverityOverrides = {
+                  reportUnusedVariable = 'warning',
+                },
+                typeCheckingMode = 'off', -- Set type-checking mode to off
+                diagnosticMode = 'off', -- Disable diagnostics entirely
+              },
+            },
+          },
+        },
+        ruff = {
+          on_attach = function(client, _)
+            if client.name == 'ruff' then
+              -- disable hover in favor of pyright
+              client.server_capabilities.hoverProvider = false
+            end
+          end,
+          init_options = {
+            settings = {},
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -761,21 +790,25 @@ require('lazy').setup({
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
+        -- Disable format on save completely.
+        return nil
+
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
-        end
+        -- local disable_filetypes = { c = true, cpp = true }
+        -- if disable_filetypes[vim.bo[bufnr].filetype] then
+        --   return nil
+        -- else
+        --   return {
+        --     timeout_ms = 500,
+        --     lsp_format = 'fallback',
+        --   }
+        -- end
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -956,30 +989,6 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
-
-      local animate = require 'mini.animate'
-      animate.setup {
-        cursor = {
-          enable = false,
-        },
-        scroll = {
-          enable = true,
-          timing = animate.gen_timing.exponential {
-            easing = 'out',
-            duration = 50,
-            unit = 'total',
-          },
-        },
-        resize = {
-          enable = false,
-        },
-        open = {
-          enable = false,
-        },
-        close = {
-          enable = false,
-        },
-      }
     end,
   },
   { -- Highlight, edit, and navigate code
