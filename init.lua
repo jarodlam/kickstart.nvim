@@ -426,6 +426,11 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
         },
+        defaults = {
+          path_display = {
+            'filename_first',
+          },
+        },
       }
 
       -- Enable Telescope extensions if they are installed
@@ -733,6 +738,15 @@ require('lazy').setup({
           end,
           init_options = {
             settings = {},
+          },
+        },
+        ['nil'] = {
+          settings = {
+            ['nil'] = {
+              formatting = {
+                command = { 'nixfmt' },
+              },
+            },
           },
         },
       }
