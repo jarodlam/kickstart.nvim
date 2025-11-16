@@ -959,6 +959,23 @@ require('lazy').setup({
     opts = {
       flavour = 'mocha',
       transparent_background = true,
+      color_overrides = {
+        -- Greyscale Catppuccin overrides
+        mocha = {
+          text = '#e1e1e1',
+          subtext1 = '#cccccc',
+          subtext0 = '#b7b7b7',
+          overlay2 = '#a2a2a2',
+          overlay1 = '#8e8e8e',
+          overlay0 = '#797979',
+          surface2 = '#646464',
+          surface1 = '#505050',
+          surface0 = '#3a3a3a',
+          base = '#262626',
+          mantle = '#1f1f1f',
+          crust = '#161616',
+        },
+      },
     },
     init = function()
       vim.cmd.colorscheme 'catppuccin-mocha'
