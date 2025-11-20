@@ -28,6 +28,7 @@ return {
           return vim.g.snacks_scroll ~= false and vim.b[buf].snacks_scroll ~= false and vim.bo[buf].buftype ~= 'terminal'
         end,
       },
+      terminal = { enabled = true },
     },
     keys = {
       {
@@ -42,6 +43,13 @@ return {
         '<leader>hh',
         function()
           require('snacks').lazygit()
+        end,
+        desc = 'lazygit',
+      },
+      {
+        '<leader>hg',
+        function()
+          require('snacks').terminal { 'gitui' }
         end,
         desc = 'lazygit',
       },
